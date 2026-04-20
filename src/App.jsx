@@ -55,9 +55,9 @@ export default function App() {
 
   return (
     <div className="app-bg">
-      <div className="orb orb-1" />
-      <div className="orb orb-2" />
-      <div className="orb orb-3" />
+      <div className="orb orb-1" aria-hidden="true" />
+      <div className="orb orb-2" aria-hidden="true" />
+      <div className="orb orb-3" aria-hidden="true" />
       <div className="app">
         <InputPanel inputs={inputs} onChange={setInputs} />
         <main className="app-main">
