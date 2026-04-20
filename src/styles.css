@@ -1,13 +1,11 @@
 :root {
   --bg: #1E1C1A;
-  --surface: #272422;
   --accent: #D4714E;
   --sand: #C9A882;
   --text: #F5F0EA;
   --text-muted: #9E9189;
   --border: #3E3B38;
   --radius: 12px;
-  --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
   --font: 'Inter', sans-serif;
 }
 
