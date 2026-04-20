@@ -72,3 +72,41 @@
   border: none;
   border-top: 1px solid var(--border);
 }
+
+.input-prefix-wrap {
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(212, 113, 78, 0.18);
+  border-radius: 6px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.input-prefix-wrap:focus-within {
+  border-color: rgba(212, 113, 78, 0.5);
+  box-shadow: 0 0 0 3px rgba(212, 113, 78, 0.12);
+}
+
+.prefix-sym {
+  padding: 8px 8px 8px 10px;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.02);
+  border-right: 1px solid rgba(212, 113, 78, 0.1);
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.input-prefix-wrap input[type="text"] {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 8px 10px;
+  width: 100%;
+}
+
+.input-prefix-wrap input[type="text"]:focus {
+  border-color: transparent;
+  box-shadow: none;
+}

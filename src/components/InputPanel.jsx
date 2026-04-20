@@ -1,12 +1,23 @@
+import { useState } from 'react'
 import './InputPanel.css'
 
 export default function InputPanel({ inputs, onChange }) {
+  const [focusedField, setFocusedField] = useState(null)
+
   function set(key, value) {
     onChange({ ...inputs, [key]: value })
   }
 
   function setSavings(key, value) {
     onChange({ ...inputs, savingsInput: { ...inputs.savingsInput, [key]: value } })
+  }
+
+  function dollarValue(fieldKey, raw) {
+    return focusedField === fieldKey ? String(raw) : raw.toLocaleString()
+  }
+
+  function parseDollar(str) {
+    return Number(str.replace(/,/g, '')) || 0
   }
 
   const resolvedSavings = inputs.savingsInput.mode === 'percent'
@@ -30,25 +41,31 @@ export default function InputPanel({ inputs, onChange }) {
       </div>
 
       <div className="input-group">
-        <label>Current Portfolio ($)</label>
-        <input
-          type="number"
-          value={inputs.currentPortfolio}
-          onChange={e => set('currentPortfolio', Number(e.target.value))}
-          min={0}
-          step={1000}
-        />
+        <label>Current Portfolio</label>
+        <div className="input-prefix-wrap">
+          <span className="prefix-sym">$</span>
+          <input
+            type="text"
+            value={dollarValue('currentPortfolio', inputs.currentPortfolio)}
+            onFocus={() => setFocusedField('currentPortfolio')}
+            onBlur={() => setFocusedField(null)}
+            onChange={e => set('currentPortfolio', parseDollar(e.target.value))}
+          />
+        </div>
       </div>
 
       <div className="input-group">
-        <label>Annual Expenses ($)</label>
-        <input
-          type="number"
-          value={inputs.annualExpenses}
-          onChange={e => set('annualExpenses', Number(e.target.value))}
-          min={0}
-          step={1000}
-        />
+        <label>Annual Expenses</label>
+        <div className="input-prefix-wrap">
+          <span className="prefix-sym">$</span>
+          <input
+            type="text"
+            value={dollarValue('annualExpenses', inputs.annualExpenses)}
+            onFocus={() => setFocusedField('annualExpenses')}
+            onBlur={() => setFocusedField(null)}
+            onChange={e => set('annualExpenses', parseDollar(e.target.value))}
+          />
+        </div>
       </div>
 
       <hr className="divider" />
@@ -71,23 +88,29 @@ export default function InputPanel({ inputs, onChange }) {
         </div>
 
         {inputs.savingsInput.mode === 'fixed' ? (
-          <input
-            type="number"
-            value={inputs.savingsInput.value}
-            onChange={e => setSavings('value', Number(e.target.value))}
-            min={0}
-            step={1000}
-          />
+          <div className="input-prefix-wrap">
+            <span className="prefix-sym">$</span>
+            <input
+              type="text"
+              value={dollarValue('savingsValue', inputs.savingsInput.value)}
+              onFocus={() => setFocusedField('savingsValue')}
+              onBlur={() => setFocusedField(null)}
+              onChange={e => setSavings('value', parseDollar(e.target.value))}
+            />
+          </div>
         ) : (
           <>
-            <input
-              type="number"
-              value={inputs.income}
-              onChange={e => set('income', Number(e.target.value))}
-              min={0}
-              step={1000}
-              placeholder="Annual income ($)"
-            />
+            <div className="input-prefix-wrap">
+              <span className="prefix-sym">$</span>
+              <input
+                type="text"
+                value={dollarValue('income', inputs.income)}
+                onFocus={() => setFocusedField('income')}
+                onBlur={() => setFocusedField(null)}
+                onChange={e => set('income', parseDollar(e.target.value))}
+                placeholder="Annual income"
+              />
+            </div>
             <input
               type="number"
               value={inputs.savingsInput.value}
