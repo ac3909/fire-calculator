@@ -54,12 +54,17 @@ export default function App() {
   }, [inputs])
 
   return (
-    <div className="app">
-      <InputPanel inputs={inputs} onChange={setInputs} />
-      <main className="app-main">
-        <ResultsSummary firePoint={firePoint} currentYear={new Date().getFullYear()} />
-        <CombinedChart chartData={chartData} curves={curves} />
-      </main>
+    <div className="app-bg">
+      <div className="orb orb-1" />
+      <div className="orb orb-2" />
+      <div className="orb orb-3" />
+      <div className="app">
+        <InputPanel inputs={inputs} onChange={setInputs} />
+        <main className="app-main">
+          <ResultsSummary firePoint={firePoint} currentYear={new Date().getFullYear()} />
+          <CombinedChart chartData={chartData} curves={curves} />
+        </main>
+      </div>
     </div>
   )
 }
