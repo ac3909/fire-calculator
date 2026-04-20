@@ -96,7 +96,7 @@ export default function InputPanel({ inputs, onChange }) {
               placeholder="Savings rate (%)"
             />
             <span className="input-hint">
-              = ${resolvedSavings?.toLocaleString()} / yr
+              = ${resolvedSavings.toLocaleString()} / yr
             </span>
           </>
         )}
