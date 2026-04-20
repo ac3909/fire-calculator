@@ -22,9 +22,10 @@ export default function InputPanel({ inputs, onChange }) {
         <input
           type="number"
           value={inputs.currentAge}
-          onChange={e => set('currentAge', Number(e.target.value))}
+          onChange={e => set('currentAge', parseInt(e.target.value, 10) || inputs.currentAge)}
           min={18}
           max={80}
+          step={1}
         />
       </div>
 
