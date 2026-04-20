@@ -1,8 +1,7 @@
 export function resolveSavings(income, savingsInput) {
-  if (savingsInput.mode === 'percent') {
-    return income * (savingsInput.value / 100)
-  }
-  return savingsInput.value
+  if (savingsInput.mode === 'percent') return income * (savingsInput.value / 100)
+  if (savingsInput.mode === 'fixed') return savingsInput.value
+  throw new Error(`Unknown savings mode: ${savingsInput.mode}`)
 }
 
 export function projectPortfolio({
@@ -75,17 +74,16 @@ export function buildChartData(curves, bands) {
   const result = []
 
   for (let year = 0; year <= maxYear; year++) {
-    const entry = { year }
+    const entry = { year, age: curves[0].data[0].age + year }
     curves.forEach((curve, i) => {
-      const point = curve.data[year]
+      const point = curve.data.find(p => p.year === year)
       if (point !== undefined) {
-        entry.age = point.age
         entry[`curve${i}`] = point.portfolio
         entry[`fire${i}`] = point.fireNumber
       }
       if (bands) {
-        const lowPt = bands[i].low[year]
-        const highPt = bands[i].high[year]
+        const lowPt = bands[i].low.find(p => p.year === year)
+        const highPt = bands[i].high.find(p => p.year === year)
         if (lowPt !== undefined && highPt !== undefined) {
           entry[`low${i}`] = lowPt.portfolio
           entry[`diff${i}`] = highPt.portfolio - lowPt.portfolio

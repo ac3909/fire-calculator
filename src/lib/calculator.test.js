@@ -53,8 +53,17 @@ describe('projectPortfolio', () => {
   })
 
   it('respects maxYears cap', () => {
-    const data = projectPortfolio({ ...base, annualSavings: 0, maxYears: 10 })
-    expect(data.at(-1).year).toBeLessThanOrEqual(10)
+    const data = projectPortfolio({
+      currentPortfolio: 0,
+      currentAge: 30,
+      annualSavings: 0,
+      annualExpenses: 100000,
+      inflationRate: 3,
+      returnRate: 7,
+      swr: 4,
+      maxYears: 10,
+    })
+    expect(data.at(-1).year).toBe(10)
   })
 })
 
