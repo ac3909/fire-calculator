@@ -29,8 +29,8 @@ body {
 
 input[type="number"],
 input[type="text"] {
-  background: var(--bg);
-  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(212, 113, 78, 0.18);
   border-radius: 6px;
   color: var(--text);
   font-family: var(--font);
@@ -38,12 +38,13 @@ input[type="text"] {
   padding: 8px 10px;
   width: 100%;
   outline: none;
-  transition: border-color 0.15s;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
 input[type="number"]:focus,
 input[type="text"]:focus {
-  border-color: var(--accent);
+  border-color: rgba(212, 113, 78, 0.5);
+  box-shadow: 0 0 0 3px rgba(212, 113, 78, 0.12);
 }
 
 button {
