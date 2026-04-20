@@ -3,6 +3,7 @@ import './InputPanel.css'
 
 export default function InputPanel({ inputs, onChange }) {
   const [focusedField, setFocusedField] = useState(null)
+  const [editingValue, setEditingValue] = useState('')
 
   function set(key, value) {
     onChange({ ...inputs, [key]: value })
@@ -13,11 +14,11 @@ export default function InputPanel({ inputs, onChange }) {
   }
 
   function dollarValue(fieldKey, raw) {
-    return focusedField === fieldKey ? String(raw) : raw.toLocaleString()
+    return focusedField === fieldKey ? editingValue : raw.toLocaleString()
   }
 
   function parseDollar(str) {
-    return Number(str.replace(/,/g, '')) || 0
+    return Math.max(0, Number(str.replace(/,/g, '')) || 0)
   }
 
   const resolvedSavings = inputs.savingsInput.mode === 'percent'
@@ -47,9 +48,9 @@ export default function InputPanel({ inputs, onChange }) {
           <input
             type="text"
             value={dollarValue('currentPortfolio', inputs.currentPortfolio)}
-            onFocus={() => setFocusedField('currentPortfolio')}
+            onFocus={() => { setFocusedField('currentPortfolio'); setEditingValue(String(inputs.currentPortfolio)) }}
             onBlur={() => setFocusedField(null)}
-            onChange={e => set('currentPortfolio', parseDollar(e.target.value))}
+            onChange={e => { setEditingValue(e.target.value); set('currentPortfolio', parseDollar(e.target.value)) }}
           />
         </div>
       </div>
@@ -61,9 +62,9 @@ export default function InputPanel({ inputs, onChange }) {
           <input
             type="text"
             value={dollarValue('annualExpenses', inputs.annualExpenses)}
-            onFocus={() => setFocusedField('annualExpenses')}
+            onFocus={() => { setFocusedField('annualExpenses'); setEditingValue(String(inputs.annualExpenses)) }}
             onBlur={() => setFocusedField(null)}
-            onChange={e => set('annualExpenses', parseDollar(e.target.value))}
+            onChange={e => { setEditingValue(e.target.value); set('annualExpenses', parseDollar(e.target.value)) }}
           />
         </div>
       </div>
@@ -93,9 +94,9 @@ export default function InputPanel({ inputs, onChange }) {
             <input
               type="text"
               value={dollarValue('savingsValue', inputs.savingsInput.value)}
-              onFocus={() => setFocusedField('savingsValue')}
+              onFocus={() => { setFocusedField('savingsValue'); setEditingValue(String(inputs.savingsInput.value)) }}
               onBlur={() => setFocusedField(null)}
-              onChange={e => setSavings('value', parseDollar(e.target.value))}
+              onChange={e => { setEditingValue(e.target.value); setSavings('value', parseDollar(e.target.value)) }}
             />
           </div>
         ) : (
@@ -105,9 +106,9 @@ export default function InputPanel({ inputs, onChange }) {
               <input
                 type="text"
                 value={dollarValue('income', inputs.income)}
-                onFocus={() => setFocusedField('income')}
+                onFocus={() => { setFocusedField('income'); setEditingValue(String(inputs.income)) }}
                 onBlur={() => setFocusedField(null)}
-                onChange={e => set('income', parseDollar(e.target.value))}
+                onChange={e => { setEditingValue(e.target.value); set('income', parseDollar(e.target.value)) }}
                 placeholder="Annual income"
               />
             </div>
@@ -120,7 +121,7 @@ export default function InputPanel({ inputs, onChange }) {
               placeholder="Savings rate (%)"
             />
             <span className="input-hint">
-              = ${resolvedSavings.toLocaleString()} / yr
+              = ${resolvedSavings != null ? resolvedSavings.toLocaleString() : '0'} / yr
             </span>
           </>
         )}
